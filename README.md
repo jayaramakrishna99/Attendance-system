@@ -94,8 +94,11 @@ This project is licensed under the MIT License. Feel free to modify and use it f
 
 ### **Contact 📧**
 
-👨‍💻 Developer: [Jayarama Krishna]
-📧 Email: jayaramakrishnachallagundla@gmail.com
-🔗 GitHub: github.com/jayaramakrishna99
+For any inquiries or feedback, please contact:
+
+👨‍💻 **Developer**: [Jayarama Krishna](https://github.com/jayaramakrishna99)  
+📧 **Email**: [jayaramakrishnachallagundla@gmail.com](mailto:jayaramakrishnachallagundla@gmail.com)  
+🔗 **GitHub**: [github.com/jayaramakrishna99](https://github.com/jayaramakrishna99)
+
 
 
