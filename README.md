@@ -44,15 +44,15 @@ git clone https://github.com/your-username/VFSTR-Attendance-System.git
 cd VFSTR-Attendance-System
 ```
 ### **2. Set Up the Flutter App**
-    Install Flutter SDK from the official website: https://flutter.dev/docs/get-started/install
-    Run the following command to install dependencies:
-    ```bash
+Install Flutter SDK from the official website: https://flutter.dev/docs/get-started/install
+Run the following command to install dependencies:
+```bash
     flutter pub get
-    ```
-    To run the app on an emulator or device:
-    ```bash
+```
+To run the app on an emulator or device:
+```bash
     flutter run
-    ```
+```
 ### **3. Set Up the Backend(FastAPI)**
 Navigate to the backend folder:
 ```bash
@@ -67,8 +67,8 @@ Start the FastAPI server:
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 ### **4. Set Up MySQL Database**
-    Install MySQL Server and create a new database.
-    Update the database credentials in the backend/main.py file.
+Install MySQL Server and create a new database.
+Update the database credentials in the backend/main.py file.
 
 ---
 ### **Usage 📱**
@@ -78,19 +78,23 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ---
 ### **Contributing 🤝**
 We welcome contributions! Please follow these steps:
-    1. Fork the repository
-    2. Create a new branch (feature-branch)
-    3. Commit your changes (git commit -m "Added new feature")
-    4. Push to your fork (git push origin feature-branch)
-    5. Submit a Pull Request 🎉
----
-### **License 📜**
-This project is licensed under the MIT License. Feel free to modify and use it for your needs.
----
-### **Contact 📧**
+1. Fork the repository
+2. Create a new branch (feature-branch)
+3. Commit your changes (git commit -m "Added new feature")
+4. Push to your fork (git push origin feature-branch)
+5. Submit a Pull Request 🎉
 
-👨‍💻 Developer: [Jayarama Krishna]
-📧 Email: jayaramakrishnachallagundla@gmail.com
-🔗 GitHub: github.com/jayaramakrishna99
+---
+
+### **License 📜**
+
+This project is licensed under the MIT License. Feel free to modify and use it for your needs.
+
+---
+
+### **Contact 📧**
+-👨‍💻 Developer: [Jayarama Krishna]
+-📧 Email: jayaramakrishnachallagundla@gmail.com
+-🔗 GitHub: github.com/jayaramakrishna99
 
 
