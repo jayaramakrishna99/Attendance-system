@@ -68,7 +68,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 ### **4. Set Up MySQL Database**
 Install MySQL Server and create a new database.
-Update the database credentials in the backend/main.py file.
+Update the database credentials in the `backend/main.py` file.
 
 ---
 ### **Usage 📱**
@@ -79,9 +79,9 @@ Update the database credentials in the backend/main.py file.
 ### **Contributing 🤝**
 We welcome contributions! Please follow these steps:
 1. Fork the repository
-2. Create a new branch (feature-branch)
-3. Commit your changes (git commit -m "Added new feature")
-4. Push to your fork (git push origin feature-branch)
+2. Create a new branch (`feature-branch`)
+3. Commit your changes (`git commit -m "Added new feature"`)
+4. Push to your fork (`git push origin feature-branch`)
 5. Submit a Pull Request 🎉
 
 ---
