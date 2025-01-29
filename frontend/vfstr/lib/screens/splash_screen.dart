@@ -19,7 +19,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
         _logoOpacity = 1.0; // Fade in the logo
-        _textPosition = 0; // Slide up the text
+      });
+    });
+
+    // Animate the text after the logo fades in
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        _textPosition = 20; // Slide up the text from the bottom
       });
     });
 
@@ -27,8 +33,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      ); // Change '/home' to your home screen route
+        MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your home screen
+      );
     });
   }
 

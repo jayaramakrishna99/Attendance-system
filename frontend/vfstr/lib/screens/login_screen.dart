@@ -84,24 +84,43 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login")),
+      backgroundColor: Color.fromRGBO(245, 241, 230, 1), // Background color
+      appBar: AppBar(
+        title: Text("Login"),
+        backgroundColor: Color.fromRGBO(245, 241, 230, 1), // Match app bar color
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            // Faculty ID input field
             TextField(
               controller: _facultyIdController,
-              decoration: InputDecoration(labelText: 'Faculty ID'),
+              decoration: InputDecoration(
+                labelText: 'Faculty ID',
+                labelStyle: TextStyle(color: Color.fromRGBO(81, 97, 91, 1)), // Label color
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color.fromRGBO(81, 97, 91, 1)), // Focused border color
+                ),
+              ),
             ),
             SizedBox(height: 20),
+            
+            // Captured image display
             isImageCaptured
                 ? Image.file(
                     _capturedImage,
                     height: 300,
                   )  // Display captured image
-                : Text("No image captured yet."),  // Message when no image is captured
+                : Text(
+                    "No image captured yet.",
+                    style: TextStyle(color: Color.fromRGBO(81, 97, 91, 1)), // Text color
+                  ),
             
             SizedBox(height: 20),
+            
+            // Camera button with custom theme
             ElevatedButton(
               onPressed: () {
                 // Navigate to Camera Widget for capturing the image
@@ -115,20 +134,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Customize the color of the button if needed
-                shape: CircleBorder(), // Make the button round
-                padding: EdgeInsets.all(20), // Adjust padding for the icon size
+                backgroundColor: Color.fromRGBO(245, 241, 230, 1), // Background color for the button
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
               ),
               child: Icon(
-                Icons.camera_alt, // Camera icon
-                size: 40, // Icon size
-                color: Colors.white, // Icon color
+                Icons.camera_alt,
+                size: 40,
+                color: Color.fromRGBO(81, 97, 91, 1), // Icon color
               ),
             ),
             SizedBox(height: 30),
+            
+            // Login button with custom theme
             ElevatedButton(
               onPressed: _markAttendance,
-              child: Text('Login', style: TextStyle(fontSize: 18)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromRGBO(245, 241, 230, 1), // Button color
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              ),
+              child: Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Color.fromRGBO(81, 97, 91, 1), // Text color
+                ),
+              ),
             ),
           ],
         ),

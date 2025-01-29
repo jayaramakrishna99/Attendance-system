@@ -19,19 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/background.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          _screens[_currentIndex],
-        ],
-      ),
+      body: _screens[_currentIndex], // Removed background image
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -42,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Welcome',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.login),
@@ -50,9 +38,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.app_registration),
-            label: 'Register',
+            label: 'Register/Update',
           ),
         ],
+        backgroundColor: Color.fromRGBO(81, 97, 91, 1), // Background color of the nav bar
+        selectedItemColor: Color.fromRGBO(245, 241, 230, 1), // Color for selected item
+        unselectedItemColor: Colors.grey, // Color for unselected items
+        selectedLabelStyle: TextStyle(
+          color: Color.fromRGBO(245, 241, 230, 1), // Selected label text color
+        ),
+        unselectedLabelStyle: TextStyle(
+          color: Colors.grey, // Unselected label text color
+        ),
       ),
     );
   }
