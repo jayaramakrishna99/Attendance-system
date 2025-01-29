@@ -31,10 +31,10 @@ The **VFSTR Attendance System** is a mobile application built using **Flutter**,
 
 ---
 
-## **Screenshots** 📸  
+<!-- ## **Screenshots** 📸  
 (Add relevant images here, e.g., UI screenshots of Login, Register, and Home screens.)  
 
----
+--- -->
 
 ## **Installation Guide** ⚙  
 
@@ -96,7 +96,7 @@ This project is licensed under the MIT License. Feel free to modify and use it f
 
 For any inquiries or feedback, please contact:
 
-👨‍💻 **Developer**: [Jayarama Krishna](https://github.com/jayaramakrishna99)  
+<!-- 👨‍💻 **Developer**: [Jayarama Krishna](https://github.com/jayaramakrishna99)   -->
 📧 **Email**: [jayaramakrishnachallagundla@gmail.com](mailto:jayaramakrishnachallagundla@gmail.com)  
 🔗 **GitHub**: [github.com/jayaramakrishna99](https://github.com/jayaramakrishna99)
 
