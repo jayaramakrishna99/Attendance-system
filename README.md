@@ -47,11 +47,11 @@ cd VFSTR-Attendance-System
 Install Flutter SDK from the official website: https://flutter.dev/docs/get-started/install
 Run the following command to install dependencies:
 ```bash
-    flutter pub get
+flutter pub get
 ```
 To run the app on an emulator or device:
 ```bash
-    flutter run
+flutter run
 ```
 ### **3. Set Up the Backend(FastAPI)**
 Navigate to the backend folder:
@@ -93,8 +93,9 @@ This project is licensed under the MIT License. Feel free to modify and use it f
 ---
 
 ### **Contact 📧**
--👨‍💻 Developer: [Jayarama Krishna]
--📧 Email: jayaramakrishnachallagundla@gmail.com
--🔗 GitHub: github.com/jayaramakrishna99
+
+👨‍💻 Developer: [Jayarama Krishna]
+📧 Email: jayaramakrishnachallagundla@gmail.com
+🔗 GitHub: github.com/jayaramakrishna99
 
 
