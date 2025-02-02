@@ -150,14 +150,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: _markAttendance,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(245, 241, 230, 1), // Button color
+                backgroundColor: Color.fromRGBO(81, 97, 91, 1), // Button color
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               ),
               child: Text(
                 'Login',
                 style: TextStyle(
                   fontSize: 18,
-                  color: Color.fromRGBO(81, 97, 91, 1), // Text color
+                  color: Color.fromRGBO(245, 241, 230, 1), // Text color
                 ),
               ),
             ),

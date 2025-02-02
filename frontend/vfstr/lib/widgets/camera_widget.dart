@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
+import 'dart:math';
 
 class CameraWidget extends StatefulWidget {
   final Function(String) onImageCaptured;
 
-  const CameraWidget({required this.onImageCaptured});
+  const CameraWidget({required this.onImageCaptured, Key? key}) : super(key: key);
 
   @override
   _CameraWidgetState createState() => _CameraWidgetState();
@@ -14,24 +15,33 @@ class CameraWidget extends StatefulWidget {
 class _CameraWidgetState extends State<CameraWidget> {
   late CameraController _cameraController;
   late Future<void> _initializeControllerFuture;
+  bool _isCameraInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    // Lock orientation to portrait
+    // Lock orientation to portrait mode
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
     _initializeCamera();
   }
 
   // Initialize the camera
   void _initializeCamera() async {
     final cameras = await availableCameras();
-    final firstCamera = cameras.last; // Select the first available camera
+    final firstCamera = cameras.last; // Use the front or back camera
 
-    _cameraController = CameraController(firstCamera, ResolutionPreset.medium);
-    _initializeControllerFuture = _cameraController.initialize();
-    setState(() {});
+    _cameraController = CameraController(
+      firstCamera,
+      ResolutionPreset.medium,
+    );
+
+    _initializeControllerFuture = _cameraController.initialize().then((_) {
+      setState(() {
+        _isCameraInitialized = true;
+      });
+    }).catchError((e) {
+      print("Error initializing camera: $e");
+    });
   }
 
   // Capture the image
@@ -50,40 +60,51 @@ class _CameraWidgetState extends State<CameraWidget> {
   void dispose() {
     _cameraController.dispose();
     // Unlock orientation when exiting
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
+    SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft],
+    );
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Capture Image')),
-      body: Column(
-        children: [
-          // Set Camera Preview with height and width
-          Expanded(
-            child: FutureBuilder<void>(
-              future: _initializeControllerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  // Use a Container to set the desired width and height for the preview
-                  return Container(
-                    width: double.infinity,  // Full screen width
-                    height: 400,  // Set height for preview
-                    child: CameraPreview(_cameraController),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.camera, size: 50, color: Colors.blue),
-            onPressed: _captureImage,
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Camera')),
+      body: _isCameraInitialized
+          ? Stack(
+              children: [
+                // Camera preview with rotation
+                Positioned(
+                  bottom: 400, // Adjust vertical position
+                  left: 0, // Adjust horizontal position
+                  child: SizedBox(
+                    width: 400, // Set preview width
+                    height: 250, // Set preview height
+                    child: AspectRatio(
+                      aspectRatio: _cameraController.value.aspectRatio,
+                      child: Transform.rotate(
+                        angle: -90 * pi / 180, // Rotate preview by 90 degrees
+                        child: CameraPreview(_cameraController),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Capture button
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 175, bottom: 175), // Add margin
+                    child: IconButton(
+                      icon: const Icon(Icons.camera, size: 70, color: Color.fromRGBO(81, 97, 91, 1)),
+                      onPressed: _captureImage,
+                    ),
+                  ),
+                ),
+
+              ],
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
