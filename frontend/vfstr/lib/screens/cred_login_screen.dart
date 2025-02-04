@@ -16,37 +16,42 @@ class _CredLoginScreenState extends State<CredLoginScreen> {
   final TextEditingController _adminIdController = TextEditingController();
   final TextEditingController _adminPasswordController = TextEditingController();
 
-  // void _login() {
-  //   String employeeId = _employeeIdController.text.trim();
-  //   String password = _passwordController.text.trim();
+  bool _isLoadingLogin = false; // Loading state for Employee Login
+  bool _isLoadingAdmin = false; // Loading state for Admin Login
 
-  //   if (employeeId.isNotEmpty && password.isNotEmpty) {
-  //     // TODO: Validate login credentials (API integration)
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => HomeScreen()),
-  //     );
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text("Please enter Employee ID and Password")),
-  //     );
-  //   }
-  // }
+  void _showDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> _login() async {
     String employeeId = _employeeIdController.text.trim();
     String password = _passwordController.text.trim();
 
     if (employeeId.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter Employee ID and Password")),
-      );
+      _showDialog("Error", "Please enter Employee ID and Password.");
       return;
     }
 
+    setState(() {
+      _isLoadingLogin = true;
+    });
+
     try {
       var uri = Uri.parse("$serverurl/api/login/");
-      
       var response = await http.post(
         uri,
         body: jsonEncode({
@@ -56,82 +61,94 @@ class _CredLoginScreenState extends State<CredLoginScreen> {
         headers: {'Content-Type': 'application/json'},
       );
 
+      setState(() {
+        _isLoadingLogin = false;
+      });
+
       if (response.statusCode == 200) {
-        // Navigate to HomeScreen if login is successful
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       } else {
         var responseBody = response.body.isNotEmpty ? jsonDecode(response.body) : {};
-        String errorMessage = responseBody.containsKey('detail')
-            ? responseBody['detail']
-            : "Login failed";
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+        String errorMessage = responseBody.containsKey('detail') ? responseBody['detail'] : "Login failed";
+        _showDialog("Login Failed", errorMessage);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
-      );
+      setState(() {
+        _isLoadingLogin = false;
+      });
+      _showDialog("Error", "An error occurred: $e");
     }
   }
-
-
 
   void _showAdminLoginDialog() {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text("Admin Login"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _adminIdController,
-                decoration: InputDecoration(labelText: "Admin ID"),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Admin Login"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: _adminIdController,
+                    decoration: InputDecoration(labelText: "Admin ID"),
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: _adminPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(labelText: "Password"),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _adminPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: "Password"),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                String adminId = _adminIdController.text.trim();
-                String password = _adminPasswordController.text.trim();
-                
-                if (adminId.isNotEmpty && password.isNotEmpty) {
-                  // TODO: Validate admin credentials (API integration)
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("Cancel"),
+                ),
+                _isLoadingAdmin
+                    ? Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      )
+                    : ElevatedButton(
+                        onPressed: () async {
+                          String adminId = _adminIdController.text.trim();
+                          String password = _adminPasswordController.text.trim();
 
-                  // Close the dialog
-                  Navigator.pop(context);
+                          if (adminId.isEmpty || password.isEmpty) {
+                            _showDialog("Error", "Please enter Admin ID and Password.");
+                            return;
+                          }
 
-                  // Navigate to User Add Screen
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserAddScreen()),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Please enter Admin ID and Password")),
-                  );
-                }
-              },
-              child: Text("Login"),
-            ),
-          ],
+                          setState(() {
+                            _isLoadingAdmin = true;
+                          });
+
+                          // Simulating an API call for admin login (Replace this with actual API call)
+                          await Future.delayed(Duration(seconds: 2));
+
+                          setState(() {
+                            _isLoadingAdmin = false;
+                          });
+
+                          // Close the dialog and navigate to the next screen
+                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => UserAddScreen()),
+                          );
+                        },
+                        child: Text("Login"),
+                      ),
+              ],
+            );
+          },
         );
       },
     );
@@ -164,10 +181,12 @@ class _CredLoginScreenState extends State<CredLoginScreen> {
                     decoration: InputDecoration(labelText: "Password"),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _login,
-                    child: Text("Login"),
-                  ),
+                  _isLoadingLogin
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: _login,
+                          child: Text("Login"),
+                        ),
                 ],
               ),
             ),

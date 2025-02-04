@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vfstr/screens/home_screen.dart'; 
 import 'package:vfstr/screens/cred_login_screen.dart';
 import 'dart:async';
 

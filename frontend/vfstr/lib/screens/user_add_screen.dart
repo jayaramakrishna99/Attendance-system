@@ -22,15 +22,13 @@ class _UserAddScreenState extends State<UserAddScreen> {
     String password = _passwordController.text.trim();
 
     if (employeeId.isEmpty || name.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill in all fields!")),
-      );
+      _showDialog("Error", "Please fill in all fields!");
       return;
     }
 
     try {
       var uri = Uri.parse("$serverurl/api/add-employee/");
-      
+
       var response = await http.post(
         uri,
         body: {
@@ -43,61 +41,46 @@ class _UserAddScreenState extends State<UserAddScreen> {
         },
       );
 
-
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Employee added successfully!")),
-        );
+        _showDialog("Success", "Employee added successfully!");
         _employeeIdController.clear();
         _nameController.clear();
         _passwordController.clear();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to add employee!")),
-        );
+        _showDialog("Error", "Failed to add employee!");
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
-      );
+      _showDialog("Error", "Error: $e");
     }
   }
 
   Future<void> _getEmployeeDetails() async {
-  String employeeId = _employeeIdController.text.trim();
+    String employeeId = _getEmployeeIdController.text.trim();  // Use the correct controller
 
-  // if (employeeId.isEmpty) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(content: Text("Please enter Employee ID")),
-  //   );
-  //   return;
-  // }
-
-  try {
-    var uri = Uri.parse("$serverurl/api/get-employee-details/?employee_id=$employeeId");
-    var response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      var responseBody = jsonDecode(response.body);
-      String name = responseBody['name'];
-      String password = responseBody['password'];
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Employee Name: $name, Password: $password")),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to get employee details!")),
-      );
+    if (employeeId.isEmpty) {
+      _showDialog("Error", "Please enter Employee ID");
+      return;
     }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error: $e")),
-    );
-  }
-}
 
-  // Logout function
+    try {
+      var uri = Uri.parse("$serverurl/api/get-employee-details/?employee_id=$employeeId");
+      var response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        String name = responseBody['name'];
+        String password = responseBody['password'];
+
+        _showDialog("Employee Details", "Employee Name: $name\nPassword: $password");
+      } else {
+        _showDialog("Error", "Failed to get employee details!");
+      }
+    } catch (e) {
+      _showDialog("Error", "Error: $e");
+    }
+  }
+
+
   void _logout() {
     Navigator.pushReplacement(
       context,
@@ -185,6 +168,25 @@ class _UserAddScreenState extends State<UserAddScreen> {
     );
   }
 
+  // A helper function to show the dialog with a message
+  void _showDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,7 +194,7 @@ class _UserAddScreenState extends State<UserAddScreen> {
         title: Text("Admin Home"),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout, size: 24), 
+            icon: Icon(Icons.logout, size: 24),
             onPressed: _logout,
           ),
         ],
@@ -206,12 +208,29 @@ class _UserAddScreenState extends State<UserAddScreen> {
             ElevatedButton(
               onPressed: _showAddEmployeeDialog,
               child: Text("Add Employee"),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(200, 60),  // Set both width and height to the same value for a square
+                padding: EdgeInsets.all(0),   // Remove padding so the button is exactly the size defined
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Square corners
+                ),
+              ),
             ),
+
             SizedBox(height: 20),
+
             ElevatedButton(
               onPressed: _showGetEmployeeDialog,
               child: Text("Get Employee Details"),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(200, 60),  // Square shape
+                padding: EdgeInsets.all(0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
+
           ],
         ),
       ),
