@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               ),
               child: Text(
-                'Login',
+                'Mark Attendance',
                 style: TextStyle(
                   fontSize: 18,
                   color: Color.fromRGBO(245, 241, 230, 1), // Text color

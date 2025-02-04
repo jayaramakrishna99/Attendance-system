@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.login),
-            label: 'Login',
+            label: 'Mark Attendance',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.app_registration),

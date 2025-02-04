@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vfstr/screens/home_screen.dart'; 
+import 'package:vfstr/screens/cred_login_screen.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
@@ -8,32 +9,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  double _logoOpacity = 0.0; // For fade-in animation
-  double _textPosition = 100; // Initial offset for slide-up
+  double _logoOpacity = 0.0; // Logo fade-in opacity
+  double _textOpacity = 0.0; // Text fade-in opacity
 
   @override
   void initState() {
     super.initState();
 
-    // Start animations with a delay
+    // Fade in the logo
     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
-        _logoOpacity = 1.0; // Fade in the logo
+        _logoOpacity = 1.0;
       });
     });
 
-    // Animate the text after the logo fades in
+    // Fade in the text after the logo appears
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
-        _textPosition = 20; // Slide up the text from the bottom
+        _textOpacity = 1.0;
       });
     });
 
     // Navigate to the next screen after a delay
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your home screen
+        MaterialPageRoute(builder: (context) => CredLoginScreen()), // Replace with your home screen
       );
     });
   }
@@ -41,33 +42,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background color
-          Container(
-            color: Colors.white,
-          ),
-
-          // Logo at the center
-          Center(
-            child: AnimatedOpacity(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Logo with fade-in animation
+            AnimatedOpacity(
               opacity: _logoOpacity,
               duration: Duration(seconds: 2),
               child: Image.asset(
-                'assets/logo.png', // Make sure logo.png is in the assets folder
-                width: 150, // Adjust size as needed
+                'assets/logo.png', // Ensure logo.png is in the assets folder
+                width: 150,
                 height: 150,
               ),
             ),
-          ),
 
-          // Sliding text from the bottom
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: AnimatedPadding(
-              padding: EdgeInsets.only(bottom: _textPosition),
+            SizedBox(height: 20), // Space between logo and text
+
+            // Text with fade-in animation
+            AnimatedOpacity(
+              opacity: _textOpacity,
               duration: Duration(seconds: 2),
-              curve: Curves.easeOut,
               child: Text(
                 "VFSTR Attendance System",
                 style: TextStyle(
@@ -77,8 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
