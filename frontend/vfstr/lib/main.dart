@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
-import 'notification_service.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  tz.initializeTimeZones();
-  await NotificationService().initNotifications(); // Initialize notifications
-  NotificationService().scheduleDailyNotification(); 
   runApp(const MyApp());
 }
 
@@ -21,26 +14,26 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Attendance Recognition',
       theme: ThemeData(
-        primaryColor: const Color.fromRGBO(81, 97, 91, 1), // Dark Green
-        scaffoldBackgroundColor: const Color.fromRGBO(245, 241, 230, 1), // Cream Background
+        primaryColor: const Color.fromRGBO(81, 97, 91, 1), 
+        scaffoldBackgroundColor: const Color.fromRGBO(245, 241, 230, 1),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(81, 97, 91, 1), // Dark Green AppBar
+          backgroundColor: Color.fromRGBO(81, 97, 91, 1),
           titleTextStyle: TextStyle(
-            color: Color.fromRGBO(245, 241, 230, 1), // Cream text
+            color: Color.fromRGBO(245, 241, 230, 1),
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
           iconTheme: IconThemeData(
-            color: Color.fromRGBO(245, 241, 230, 1), // Cream icons in AppBar
+            color: Color.fromRGBO(245, 241, 230, 1), 
           ),
         ),
         iconTheme: const IconThemeData(
-          color: Color.fromRGBO(81, 97, 91, 1), // Dark Green for icons
+          color: Color.fromRGBO(81, 97, 91, 1), 
           size: 50,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            foregroundColor: const Color.fromRGBO(245, 241, 230, 1), backgroundColor: const Color.fromRGBO(81, 97, 91, 1), // Cream Text
+            foregroundColor: const Color.fromRGBO(245, 241, 230, 1), backgroundColor: const Color.fromRGBO(81, 97, 91, 1), 
             textStyle: const TextStyle(fontSize: 18),
           ),
         ),

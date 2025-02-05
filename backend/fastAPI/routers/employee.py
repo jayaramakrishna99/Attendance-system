@@ -46,27 +46,3 @@ async def login_employee(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     return {"message": "Login successful"}
-
-
-
-
-# @router.post("/login/")
-# async def login_employee(request: Request, db: Session = Depends(get_db)):
-#     data = await request.json()  # Parse JSON request
-
-#     employee_id = data.get("employee_id")
-#     password = data.get("password")
-
-#     if not employee_id or not password:
-#         raise HTTPException(status_code=400, detail="Employee ID and Password are required")
-
-#     # Check if the employee exists
-#     db_employee = db.query(Employee).filter(Employee.employee_id == employee_id).first()
-#     if not db_employee:
-#         raise HTTPException(status_code=404, detail="Employee not found")
-
-#     # Validate password (consider hashing in production)
-#     if db_employee.password != password:
-#         raise HTTPException(status_code=401, detail="Invalid credentials")
-
-#     return {"message": "Login successful"}

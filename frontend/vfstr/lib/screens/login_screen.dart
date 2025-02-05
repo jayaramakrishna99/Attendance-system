@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:vfstr/constants/serverurl.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:vfstr/widgets/camera_widget_login.dart';
+// import 'package:vfstr/widgets/camera_widget_login.dart';
+import 'package:vfstr/widgets/camera_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -138,10 +139,24 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => CameraWidget(
-                  onImageCaptured: _onImageCaptured,
+                  onImageCaptured: (capturedImage) {
+                    setState(() {
+                      _capturedImage = capturedImage;
+                      isImageCaptured = true;
+                    });
+                  },
                 ),
               ),
             );
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => CameraWidget(
+            //       onImageCaptured: _onImageCaptured,
+            //     ),
+            //   ),
+            // );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color.fromRGBO(245, 241, 230, 1),

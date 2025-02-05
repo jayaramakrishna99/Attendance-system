@@ -60,9 +60,6 @@ async def update_image(faculty_id: str = Form(...), image: UploadFile = File(...
             content = await image.read()
             await out_file.write(content)
 
-        # Optional: Anti-spoofing check (can be added here)
-
-        # Update the faculty's image in the database (as binary or path)
         update.image = content  # You can also store the path here instead of the binary
         db.commit()
 
@@ -73,27 +70,6 @@ async def update_image(faculty_id: str = Form(...), image: UploadFile = File(...
         )
     finally:
         db.close()
-# async def update_image(
-#     faculty_id: str = Form(...),
-#     image: UploadFile = File(...),
-#     db: Session = Depends(get_db)
-# ):
-#     update = db.query(Faculty).filter(Faculty.faculty_id == faculty_id).first()
-
-#     if not update:
-#         raise HTTPException(status_code=404, detail="Faculty not found")
-
-#     try:
-#         async with aiofiles.open(f"uploads/{image.filename}", "wb") as out_file:
-#             content = await image.read()
-#             await out_file.write(content)
-
-#         update.image = content
-#         db.commit()
-
-#         return {"message": "Image updated successfully"}
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error updating image: {str(e)}")
     
 
 

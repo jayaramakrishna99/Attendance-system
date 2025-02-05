@@ -47,6 +47,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CameraWidget(
+    //       onImageCaptured: (imagePath) {
+    //         setState(() {
+    //           _capturedImage = imagePath;
+    //         });
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 
   Future<void> _register() async {
@@ -117,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 241, 230, 1),
       appBar: AppBar(
-        title: Text("Register Faculty"),
+        title: Text("Registration"),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
