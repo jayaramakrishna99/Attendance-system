@@ -15,6 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _capturedImage;
   bool _isLoadingRegister = false;
   bool _isLoadingUpdate = false;
+  // String? _capturedImagePath; // Define the variable
 
   void _showDialog(String title, String message) {
     showDialog(
@@ -34,33 +35,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _openCamera() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CameraWidget(
-          onImageCaptured: (imagePath) {
+
+  void _openCamera() async {
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CameraWidget(
+        onImageCaptured: (imagePath) {
+          if (imagePath != null) {
             setState(() {
               _capturedImage = imagePath;
             });
-          },
-        ),
+          }
+        },
       ),
-    );
+    ),
+  );
 
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => CameraWidget(
-    //       onImageCaptured: (imagePath) {
-    //         setState(() {
-    //           _capturedImage = imagePath;
-    //         });
-    //       },
-    //     ),
-    //   ),
-    // );
+  // Ensure the image is set after returning from the camera screen
+  if (result != null && mounted) {
+    setState(() {
+      _capturedImage = result;
+    });
   }
+}
+
 
   Future<void> _register() async {
     if (_facultyIdController.text.isEmpty ||

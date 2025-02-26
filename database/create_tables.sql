@@ -17,10 +17,19 @@ CREATE TABLE attendance (
     date DATE NOT NULL,
     FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id)
 );
-ALTER TABLE attendance MODIFY COLUMN status VARCHAR(20);
 
+ALTER TABLE attendance MODIFY COLUMN status VARCHAR(20);
+CREATE TABLE IF NOT EXISTS employees (
+    employee_id varchar(50) primary key,
+    name varchar(50),
+    password varchar(50) 
+);
+drop table employees;
+
+USE attendance_system;
 select * from faculty;
 select * from attendance;
+select * from employees;
 
 
 delete from attendance;

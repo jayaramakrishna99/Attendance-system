@@ -23,7 +23,8 @@ async def submit_data(
         async with aiofiles.open(f"uploads/{image.filename}", "wb") as out_file:
             content = await image.read()
             await out_file.write(content)
-        
+
+        # Perform anti-spoofing check
         try:
             face_objs = DeepFace.extract_faces(img_path=image_path, anti_spoofing=True)
 

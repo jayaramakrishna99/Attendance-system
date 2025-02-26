@@ -7,6 +7,7 @@ from tempfile import NamedTemporaryFile
 import os
 from deepface import DeepFace
 
+
 router = APIRouter()
 
 @router.post("/attendance/")
