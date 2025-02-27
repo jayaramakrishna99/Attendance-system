@@ -16,8 +16,8 @@ class _CredLoginScreenState extends State<CredLoginScreen> {
   final TextEditingController _adminIdController = TextEditingController();
   final TextEditingController _adminPasswordController = TextEditingController();
 
-  bool _isLoadingLogin = false; // Loading state for Employee Login
-  bool _isLoadingAdmin = false; // Loading state for Admin Login
+  bool _isLoadingLogin = false; 
+  bool _isLoadingAdmin = false; 
 
   void _showDialog(String title, String message) {
     showDialog(
@@ -137,7 +137,6 @@ class _CredLoginScreenState extends State<CredLoginScreen> {
                             _isLoadingAdmin = false;
                           });
 
-                          // Close the dialog and navigate to the next screen
                           Navigator.pop(context);
                           Navigator.pushReplacement(
                             context,

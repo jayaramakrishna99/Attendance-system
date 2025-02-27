@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'dart:math'; // For rotation
+import 'dart:math'; 
 
 class CameraWidget extends StatefulWidget {
   final Function(dynamic) onImageCaptured;
@@ -13,7 +13,7 @@ class CameraWidget extends StatefulWidget {
 
 class _CameraWidgetState extends State<CameraWidget> {
   late CameraController _cameraController;
-  late Future<void> _initializeControllerFuture; // To track the initialization status
+  late Future<void> _initializeControllerFuture; 
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _CameraWidgetState extends State<CameraWidget> {
 
     _cameraController = CameraController(frontCamera, ResolutionPreset.high);
     _initializeControllerFuture = _cameraController.initialize();
-    setState(() {}); // Ensure the UI is updated after initialization
+    setState(() {}); 
   }
 
 
@@ -38,8 +38,8 @@ class _CameraWidgetState extends State<CameraWidget> {
   try {
     final image = await _cameraController.takePicture();
     if (mounted) {
-      widget.onImageCaptured(image.path); // Send image path back
-      Navigator.pop(context); // Close camera screen **after** sending the image
+      widget.onImageCaptured(image.path); 
+      Navigator.pop(context); 
     }
   } catch (e) {
     print("Error capturing image: $e");
@@ -57,9 +57,9 @@ class _CameraWidgetState extends State<CameraWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Capture Image'),
-        backgroundColor: const Color.fromRGBO(81, 97, 91, 1), // Dark Green
+        backgroundColor: const Color.fromRGBO(81, 97, 91, 1),
       ),
-      backgroundColor: const Color.fromRGBO(245, 241, 230, 1), // Cream Background
+      backgroundColor: const Color.fromRGBO(245, 241, 230, 1),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture, // Wait for the camera initialization
         builder: (context, snapshot) {
@@ -101,7 +101,7 @@ class _CameraWidgetState extends State<CameraWidget> {
                 right: 0,
                 child: Center(
                   child: IconButton(
-                    icon: const Icon(Icons.camera, size: 70, color: Color.fromRGBO(81, 97, 91, 1)), // Dark Green Icon
+                    icon: const Icon(Icons.camera, size: 70, color: Color.fromRGBO(81, 97, 91, 1)),
                     onPressed: _captureImage,
                     splashRadius: 40,
                   ),

@@ -16,15 +16,13 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _facultyIdController = TextEditingController();
   late File _capturedImage;
   bool isImageCaptured = false;
-  bool _isLoading = false; // Loading state
+  bool _isLoading = false; 
 
-  // Get the file path to save the captured image
   Future<String> getFilePath() async {
     final directory = await getTemporaryDirectory();
     return '${directory.path}/captured_image.jpg';
   }
 
-  // Show response in a dialog box
   void _showDialog(String title, String message) {
     showDialog(
       context: context,
@@ -35,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop(); 
               },
               child: Text("OK"),
             ),
@@ -45,11 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Mark attendance with loading state
   void _markAttendance() async {
     if (_facultyIdController.text.isNotEmpty && isImageCaptured) {
       setState(() {
-        _isLoading = true; // Show loading
+        _isLoading = true; 
       });
 
       final uri = Uri.parse("$serverurl/api/attendance/");
@@ -72,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final responseData = await response.stream.bytesToString();
 
         setState(() {
-          _isLoading = false; // Hide loading
+          _isLoading = false; 
         });
 
         if (response.statusCode == 200) {
@@ -82,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       } catch (e) {
         setState(() {
-          _isLoading = false; // Hide loading
+          _isLoading = false; 
         });
 
         _showDialog("Error", "An error occurred: $e");

@@ -15,7 +15,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _capturedImage;
   bool _isLoadingRegister = false;
   bool _isLoadingUpdate = false;
-  // String? _capturedImagePath; // Define the variable
 
   void _showDialog(String title, String message) {
     showDialog(

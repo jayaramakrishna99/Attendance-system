@@ -14,7 +14,7 @@ class CameraWidgetLogin extends StatefulWidget {
 
 class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
   late CameraController _cameraController;
-  late Future<void> _initializeControllerFuture; // To track the initialization status
+  late Future<void> _initializeControllerFuture; 
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
 
     _cameraController = CameraController(frontCamera, ResolutionPreset.high);
     _initializeControllerFuture = _cameraController.initialize();
-    setState(() {}); // Ensure the UI is updated after initialization
+    setState(() {}); 
   }
 
   // Capture image
@@ -44,7 +44,7 @@ class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
       capturedImage = image.path;
     }
     widget.onImageCaptured(capturedImage);
-    Navigator.pop(context); // Close CameraWidget
+    Navigator.pop(context);
   }
 
   @override
@@ -58,18 +58,17 @@ class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Capture Image'),
-        backgroundColor: const Color.fromRGBO(81, 97, 91, 1), // Dark Green
+        backgroundColor: const Color.fromRGBO(81, 97, 91, 1), 
       ),
-      backgroundColor: const Color.fromRGBO(245, 241, 230, 1), // Cream Background
+      backgroundColor: const Color.fromRGBO(245, 241, 230, 1), 
       body: FutureBuilder<void>(
-        future: _initializeControllerFuture, // Wait for the camera initialization
+        future: _initializeControllerFuture, 
         builder: (context, snapshot) {
           // If the camera is still initializing, show a loading indicator
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // If there was an error initializing the camera, show an error message
           if (snapshot.hasError) {
             return Center(
               child: Text('Error initializing camera: ${snapshot.error}'),
@@ -102,7 +101,7 @@ class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
                 right: 0,
                 child: Center(
                   child: IconButton(
-                    icon: const Icon(Icons.camera, size: 70, color: Color.fromRGBO(81, 97, 91, 1)), // Dark Green Icon
+                    icon: const Icon(Icons.camera, size: 70, color: Color.fromRGBO(81, 97, 91, 1)), 
                     onPressed: _captureImage,
                     splashRadius: 40,
                   ),

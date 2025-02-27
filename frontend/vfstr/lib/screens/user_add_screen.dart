@@ -55,7 +55,7 @@ class _UserAddScreenState extends State<UserAddScreen> {
   }
 
   Future<void> _getEmployeeDetails() async {
-    String employeeId = _getEmployeeIdController.text.trim();  // Use the correct controller
+    String employeeId = _getEmployeeIdController.text.trim();  
 
     if (employeeId.isEmpty) {
       _showDialog("Error", "Please enter Employee ID");
@@ -168,7 +168,6 @@ class _UserAddScreenState extends State<UserAddScreen> {
     );
   }
 
-  // A helper function to show the dialog with a message
   void _showDialog(String title, String content) {
     showDialog(
       context: context,

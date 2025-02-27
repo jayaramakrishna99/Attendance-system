@@ -5,19 +5,18 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 241, 230, 1), // Cream background
+      backgroundColor: Color.fromRGBO(245, 241, 230, 1), 
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(81, 97, 91, 1), // Dark Green AppBar
+        backgroundColor: Color.fromRGBO(81, 97, 91, 1), 
         elevation: 0,
         actions: [
           IconButton(
             icon: Icon(
               Icons.logout,
               color: Color.fromRGBO(245, 241, 230, 1),
-              size: 30, // Cream icon
+              size: 30, 
             ),
             onPressed: () {
-              // Navigate to the login credentials screen (cred_login_screen.dart)
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => CredLoginScreen()),
@@ -30,13 +29,12 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Welcome text with matching theme
             Text(
               'Welcome to VFSTR Attendance System',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(81, 97, 91, 1), // Dark Green text
+                color: Color.fromRGBO(81, 97, 91, 1), 
               ),
               textAlign: TextAlign.center,
             ),

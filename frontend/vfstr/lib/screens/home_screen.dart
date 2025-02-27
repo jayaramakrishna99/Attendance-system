@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0; // Bottom Navigation Bar index
+  int _currentIndex = 0; 
   final List<Widget> _screens = [
     WelcomeScreen(),
     LoginScreen(),
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex], // Removed background image
+      body: _screens[_currentIndex], 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -41,14 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Register/Update',
           ),
         ],
-        backgroundColor: Color.fromRGBO(81, 97, 91, 1), // Background color of the nav bar
-        selectedItemColor: Color.fromRGBO(245, 241, 230, 1), // Color for selected item
-        unselectedItemColor: Colors.grey, // Color for unselected items
+        backgroundColor: Color.fromRGBO(81, 97, 91, 1), 
+        selectedItemColor: Color.fromRGBO(245, 241, 230, 1), 
+        unselectedItemColor: Colors.grey, 
         selectedLabelStyle: TextStyle(
-          color: Color.fromRGBO(245, 241, 230, 1), // Selected label text color
+          color: Color.fromRGBO(245, 241, 230, 1), 
         ),
         unselectedLabelStyle: TextStyle(
-          color: Colors.grey, // Unselected label text color
+          color: Colors.grey, 
         ),
       ),
     );
