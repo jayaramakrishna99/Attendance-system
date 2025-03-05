@@ -84,7 +84,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (response.statusCode == 200) {
         _showDialog("Success", "Faculty registered successfully!");
-      } else {
+      }
+      else if(response.statusCode == 400) {
+        _showDialog("Error", "Faculty already registered!");
+      }
+      else if(response.statusCode == 401) {
+        _showDialog("Error", "Spoof image detected!");
+      }
+      else {
         _showDialog("Error", "Failed to register faculty!\n$responseData");
       }
     } catch (e) {
@@ -95,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _updateImage() async {
     if (_facultyIdController.text.isEmpty || _capturedImage == null) {
-      _showDialog("Error", "Please provide the Faculty ID and capture a new image!");
+      _showDialog("Required", "Please provide the Faculty ID and capture a new image!");
       return;
     }
 
@@ -114,7 +121,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (response.statusCode == 200) {
         _showDialog("Success", "Image updated successfully!");
-      } else {
+      } 
+      else if(response.statusCode == 404) {
+        _showDialog("Error", "Faculty not found!");
+      }
+      else {
         _showDialog("Error", "Failed to update image!\n$responseBody");
       }
     } catch (e) {
@@ -224,7 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
 
-                SizedBox(height: 20), // Add extra spacing at the bottom
+                SizedBox(height: 20),
               ],
             ),
           ),

@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, Form, Request
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, Form, Request # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 from models import Employee
 from database import get_db
 

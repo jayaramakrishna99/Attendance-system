@@ -1,54 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException, Form, UploadFile, File
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, Form, UploadFile, File # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 from models import Faculty, Attendance
 from database import get_db
 from datetime import datetime
 from tempfile import NamedTemporaryFile
+from deepface import DeepFace # type: ignore
 import os
-import cv2
-import torch
-import torch.nn as nn
-import torchvision.transforms as transforms
-import torchvision.models as models
-from deepface import DeepFace
+from .antispoofing import predict_spoof
 
 router = APIRouter()
 
-# 1. Load Anti-Spoofing Model
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = models.mobilenet_v2(pretrained=False)
-model.classifier[1] = nn.Linear(model.last_channel, 2)
-model.load_state_dict(torch.load("model/best_antispoof_model.pth", map_location=device))
-model.to(device)
-model.eval()
-
-# 2. Define Image Transform for Anti-Spoofing
-
-test_transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-])
-
-# 3. Anti-Spoofing Check Function
-
-def predict_spoof(image_path: str) -> bool:
-    img = cv2.imread(image_path)
-    if img is None:
-        return False  # Invalid image
-
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img_tensor = test_transform(img).unsqueeze(0).to(device)
-    
-    with torch.no_grad():
-        outputs = model(img_tensor)
-        _, predicted = torch.max(outputs, 1)
-
-    return predicted.item() == 1  # 1 => Real, 0 => Spoofed
-
-# 4. Mark Attendance API
+#  Mark Attendance API
 
 @router.post("/attendance/")
 async def mark_attendance(
@@ -142,7 +104,6 @@ async def mark_attendance(
         }
 
     finally:
-        # Cleanup: Only delete if file exists
         if temp_uploaded_path and os.path.exists(temp_uploaded_path):
             print(f"DEBUG: Deleting temp file {temp_uploaded_path}")
             os.remove(temp_uploaded_path)

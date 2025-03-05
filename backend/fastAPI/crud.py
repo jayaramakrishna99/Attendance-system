@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session # type: ignore
 from models import Employee, Faculty, Attendance
 
 def create_employee(db: Session, employee_id: str, name: str, password: str):

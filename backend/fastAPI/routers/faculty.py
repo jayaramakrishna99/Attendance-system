@@ -1,12 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, Form, Response, File
-from sqlalchemy.orm import Session
-import aiofiles
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, Form, Response, File # type: ignore
+from sqlalchemy.orm import Session # type: ignore
+import aiofiles # type: ignore
 from models import Faculty
 from database import get_db
-from fastapi.responses import JSONResponse
-
-
-
+from fastapi.responses import JSONResponse # type: ignore
+from tempfile import NamedTemporaryFile
+from .antispoofing import predict_spoof
+import os
 
 router = APIRouter()
 
@@ -14,25 +14,42 @@ router = APIRouter()
 async def submit_data(
     id: str = Form(...),
     name: str = Form(...),
-    image: UploadFile = None,
+    image: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
     try:
         existing_faculty = db.query(Faculty).filter(Faculty.faculty_id == id).first()
         if existing_faculty:
-            return JSONResponse(content={ "Message":"Faculty already registered"}, status_code=400)
-        async with aiofiles.open(f"uploads/{image.filename}", "wb") as out_file:
-            content = await image.read()
-            await out_file.write(content)
+            return JSONResponse(content={"Message": "Faculty already registered"}, status_code=400)
 
+        content = await image.read()
+
+        # Save Temporary Image File
+        temp_uploaded_path = None
+        try:
+            with NamedTemporaryFile(delete=False, suffix=".jpg") as temp_uploaded:
+                temp_uploaded.write(content)
+                temp_uploaded_path = temp_uploaded.name
+
+            # Anti-Spoofing Check
+            if not predict_spoof(temp_uploaded_path):
+                os.remove(temp_uploaded_path)
+                return JSONResponse(content={"Message": "Spoofed Image Detected"}, status_code=401)
+
+        finally:
+            if temp_uploaded_path and os.path.exists(temp_uploaded_path):
+                os.remove(temp_uploaded_path)
+
+        # Save Faculty Data in Database
         faculty = Faculty(faculty_id=id, name=name, image=content)
         db.add(faculty)
         db.commit()
         db.close()
 
-        return JSONResponse(content={"message": "Faculty registered successfully"}, status_code=200)
+        return JSONResponse(content={"Message": "Faculty registered successfully"}, status_code=200)
+
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+        return JSONResponse(content={"Error": str(e)}, status_code=500)
 
 @router.post("/update-image/")
 async def update_image(faculty_id: str = Form(...), image: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -40,9 +57,7 @@ async def update_image(faculty_id: str = Form(...), image: UploadFile = File(...
 
     # Check if the faculty exists
     if not update:
-        raise HTTPException(
-            status_code=404, detail=f"No faculty found with ID: {faculty_id}"
-        )
+        return JSONResponse(content={"Error": str(faculty_id)}, status_code=404)
 
     # Save the uploaded image to a temporary location
     try:
@@ -51,7 +66,7 @@ async def update_image(faculty_id: str = Form(...), image: UploadFile = File(...
             content = await image.read()
             await out_file.write(content)
 
-        update.image = content  # You can also store the path here instead of the binary
+        update.image = content  
         db.commit()
 
         return JSONResponse(content={"message": "Image updated successfully"}, status_code=200)
