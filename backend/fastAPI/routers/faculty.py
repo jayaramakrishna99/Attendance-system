@@ -4,7 +4,7 @@ import aiofiles
 from models import Faculty
 from database import get_db
 from fastapi.responses import JSONResponse
-from deepface import DeepFace
+
 
 
 
@@ -18,23 +18,10 @@ async def submit_data(
     db: Session = Depends(get_db)
 ):
     try:
-        image_path = f"uploads/{image.filename}"
-        # Save image to database
         async with aiofiles.open(f"uploads/{image.filename}", "wb") as out_file:
             content = await image.read()
             await out_file.write(content)
 
-        # Perform anti-spoofing check
-        try:
-            face_objs = DeepFace.extract_faces(img_path=image_path, anti_spoofing=True)
-
-            # Check if all detected faces are real
-            if not all(face_obj["is_real"] for face_obj in face_objs):
-                return JSONResponse(content={"error": "Spoofed image detected! Registration denied."}, status_code=400)
-
-        except Exception as deepface_error:
-            return JSONResponse(content={"error": f"Face detection failed: {str(deepface_error)}"}, status_code=500)
-        # Insert data into the database
         faculty = Faculty(faculty_id=id, name=name, image=content)
         db.add(faculty)
         db.commit()
