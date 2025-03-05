@@ -18,6 +18,9 @@ async def submit_data(
     db: Session = Depends(get_db)
 ):
     try:
+        existing_faculty = db.query(Faculty).filter(Faculty.faculty_id == id).first()
+        if existing_faculty:
+            return JSONResponse(content={ "Message":"Faculty already registered"}, status_code=400)
         async with aiofiles.open(f"uploads/{image.filename}", "wb") as out_file:
             content = await image.read()
             await out_file.write(content)

@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="vfstr"
-        android:name="${applicationName}"
+        android:label="VFSTR Attendance System"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
