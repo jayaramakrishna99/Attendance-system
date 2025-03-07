@@ -105,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Guided by: Dr. D Venkatesulu", 
+                    "Guided by: Prof. D. Venkatesulu (Dean, ACSE)", 
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[700],

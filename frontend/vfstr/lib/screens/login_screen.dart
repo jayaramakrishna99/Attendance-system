@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
         TextField(
           controller: _facultyIdController,
           decoration: InputDecoration(
-            labelText: 'Faculty ID',
+            labelText: 'Employee ID',
             labelStyle: TextStyle(color: Color.fromRGBO(81, 97, 91, 1)),
             border: OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
