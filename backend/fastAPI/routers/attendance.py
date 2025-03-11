@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Form, UploadFile, File # type: ignore
 from sqlalchemy.orm import Session # type: ignore
-from models import Faculty, Attendance
+from models import Faculty, Attendance, Location
 from database import get_db
-from datetime import datetime
+from datetime import datetime,  timedelta
 from tempfile import NamedTemporaryFile
 from deepface import DeepFace # type: ignore
 import os
@@ -25,6 +25,25 @@ async def mark_attendance(
     
     if not faculty.image:
         raise HTTPException(status_code=400, detail=f"No image found for faculty ID: {faculty_id}")
+    
+    latest_location = (
+        db.query(Location)
+        .filter(Location.employee_id == faculty_id)
+        .first()  
+    )
+
+    if not latest_location:
+        raise HTTPException(status_code=401, detail="Location not found. Please login again.")
+
+    current_time = datetime.now()
+    location_time = latest_location.updated_at
+    time_difference = current_time - location_time
+
+    min_time_difference = 1 # minutes
+
+    if time_difference > timedelta(minutes=min_time_difference):
+        raise HTTPException(status_code=440, detail="Session expired. Please login again.")
+        
 
     uploaded_image_data = await image.read()
 
@@ -32,12 +51,10 @@ async def mark_attendance(
     temp_stored_path = None  
 
     try:
-        # Save uploaded image to a temp file
         with NamedTemporaryFile(delete=False, suffix=".jpg") as temp_uploaded:
             temp_uploaded.write(uploaded_image_data)
             temp_uploaded_path = temp_uploaded.name  
 
-        # Save stored image to a temp file
         with NamedTemporaryFile(delete=False, suffix=".jpg") as temp_stored:
             temp_stored.write(faculty.image)
             temp_stored_path = temp_stored.name  

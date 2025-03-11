@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from routers import faculty, attendance, employee
 from database import engine, Base
 import os
+from routers import location
+
 
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
@@ -29,4 +31,5 @@ app.add_middleware(
 app.include_router(faculty.router, prefix="/api")
 app.include_router(attendance.router, prefix="/api")
 app.include_router(employee.router, prefix="/api")
+app.include_router(location.router,prefix="/api")
 
