@@ -24,13 +24,24 @@ CREATE TABLE IF NOT EXISTS employees (
     name varchar(50),
     password varchar(50) 
 );
+
+CREATE TABLE location (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_id VARCHAR(50),
+    latitude DECIMAL(10, 8),
+    longitude DECIMAL(11, 8),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+
+
 drop table employees;
 
 USE attendance_system;
 select * from faculty;
 select * from attendance;
 select * from employees;
-
+select * from location;
 
 delete from attendance;
 delete from faculty;
