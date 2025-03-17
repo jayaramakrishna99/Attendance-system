@@ -101,6 +101,14 @@ void _markAttendance() async {
           );
         });
         break;
+      
+      case 405:
+        _showDialog("Invalid Location", "You are outside the permitted area.", onOk: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => CredLoginScreen()),
+          );
+        });
 
       case 440:
         _showDialog("Session Expired", "Your session has expired. Please login again.", onOk: () {

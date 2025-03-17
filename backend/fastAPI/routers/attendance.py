@@ -7,6 +7,8 @@ from tempfile import NamedTemporaryFile
 from deepface import DeepFace # type: ignore
 import os
 from .antispoofing import predict_spoof
+from .polygon import POLYGON
+from .location_utils import is_point_in_polygon
 
 router = APIRouter()
 
@@ -34,6 +36,16 @@ async def mark_attendance(
 
     if not latest_location:
         raise HTTPException(status_code=401, detail="Location not found. Please login again.")
+    
+    # Inside mark_attendance() route
+    is_inside = is_point_in_polygon(
+        latest_location.latitude,
+        latest_location.longitude,
+        POLYGON
+    )
+
+    if not is_inside:
+        raise HTTPException(status_code=405, detail="You are outside the permitted area. Attendance cannot be marked.")
 
     current_time = datetime.now()
     location_time = latest_location.updated_at
