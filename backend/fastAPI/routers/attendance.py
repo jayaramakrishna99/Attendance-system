@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Form, UploadFile, File # type: ignore
 from sqlalchemy.orm import Session # type: ignore
+from sqlalchemy.sql import func # type: ignore
 from models import Faculty, Attendance, Location
 from database import get_db
-from datetime import datetime,  timedelta
+from datetime import datetime,  timedelta ,date
 from tempfile import NamedTemporaryFile
 from deepface import DeepFace # type: ignore
 import os
@@ -28,11 +29,22 @@ async def mark_attendance(
     if not faculty.image:
         raise HTTPException(status_code=400, detail=f"No image found for faculty ID: {faculty_id}")
     
+    today_date = date.today()
+
     latest_location = (
         db.query(Location)
-        .filter(Location.employee_id == faculty_id)
-        .first()  
+        .filter(
+            Location.employee_id == faculty_id,
+            func.date(Location.updated_at) == today_date  # Filter for today's record
+        )
+        .first()
     )
+
+    # latest_location = (
+    #     db.query(Location)
+    #     .filter(Location.employee_id == faculty_id)
+    #     .first()  
+    # )
 
     if not latest_location:
         raise HTTPException(status_code=401, detail="Location not found. Please login again.")
@@ -51,7 +63,7 @@ async def mark_attendance(
     location_time = latest_location.updated_at
     time_difference = current_time - location_time
 
-    min_time_difference = 1 # minutes
+    min_time_difference = 5 # minutes
 
     if time_difference > timedelta(minutes=min_time_difference):
         raise HTTPException(status_code=440, detail="Session expired. Please login again.")

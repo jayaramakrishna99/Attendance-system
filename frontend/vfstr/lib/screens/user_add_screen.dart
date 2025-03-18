@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:vfstr/constants/serverurl.dart';
 import 'package:vfstr/screens/cred_login_screen.dart';
+import 'package:vfstr/screens/EmployeeLocationsMapScreen.dart';
 
 class UserAddScreen extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _UserAddScreenState extends State<UserAddScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _getEmployeeIdController = TextEditingController();
   String? retrievedPassword;
+
 
   Future<void> _addEmployee() async {
     String employeeId = _employeeIdController.text.trim();
@@ -186,6 +188,115 @@ class _UserAddScreenState extends State<UserAddScreen> {
     );
   }
 
+void _showLocationOptionsDialog() {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Select Location Filter"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);  // Close dialog
+                _showEmployeeIdInputDialog();
+              },
+              child: Text("By Employee ID"),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _showDatePicker();
+              },
+              child: Text("By Date"),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeLocationMapScreen(filterType: 'all',),
+                  ),
+                );
+              },
+              child: Text("All Locations"),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void _showEmployeeIdInputDialog() {
+  final TextEditingController _employeeIdInputController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Enter Employee ID"),
+        content: TextField(
+          controller: _employeeIdInputController,
+          decoration: InputDecoration(labelText: "Employee ID"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              String employeeId = _employeeIdInputController.text.trim();
+              Navigator.pop(context);
+              if (employeeId.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EmployeeLocationMapScreen(
+                      filterType: 'byEmployeeId',
+                      employeeId: employeeId,
+                    ),
+                  ),
+                );
+              } else {
+                _showDialog("Error", "Please enter an Employee ID.");
+              }
+            },
+            child: Text("View"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showDatePicker() async {
+  DateTime? selectedDate = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2023),
+    lastDate: DateTime.now(),
+  );
+
+  if (selectedDate != null) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EmployeeLocationMapScreen(
+          filterType: 'byDate',
+          selectedDate: selectedDate.toIso8601String(), // Send as String or DateTime
+        ),
+      ),
+    );
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,30 +317,41 @@ class _UserAddScreenState extends State<UserAddScreen> {
             SizedBox(height: 30),
             ElevatedButton(
               onPressed: _showAddEmployeeDialog,
-              child: Text("Add Employee"),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(200, 60),  // Set both width and height to the same value for a square
-                padding: EdgeInsets.all(0),   // Remove padding so the button is exactly the size defined
+                minimumSize: Size(200, 60), 
+                padding: EdgeInsets.all(0),   
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Square corners
+                  borderRadius: BorderRadius.circular(10), 
                 ),
               ),
+              child: Text("Add Employee"),
             ),
 
             SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: _showGetEmployeeDialog,
-              child: Text("Get Employee Details"),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(200, 60),  // Square shape
+                minimumSize: Size(200, 60), 
                 padding: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+              child: Text("Get Employee Details"),
             ),
-
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _showLocationOptionsDialog,
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(200, 60),
+                padding: EdgeInsets.all(0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text("View Employee Locations"),
+            ),
           ],
         ),
       ),
