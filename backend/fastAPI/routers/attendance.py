@@ -97,7 +97,8 @@ async def mark_attendance(
             result = DeepFace.verify(
                 img1_path=temp_uploaded_path,
                 img2_path=temp_stored_path,
-                model_name="Facenet512"
+                model_name="Facenet512",
+                detector_backend = "retinaface"
             )
         except Exception as e:
             print(f"Face verification failed: {e}")

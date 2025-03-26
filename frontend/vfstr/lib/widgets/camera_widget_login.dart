@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'dart:math'; // For rotation
+import 'dart:math'; 
 
 class CameraWidgetLogin extends StatefulWidget {
   final Function(dynamic) onImageCaptured;
@@ -64,7 +64,6 @@ class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
       body: FutureBuilder<void>(
         future: _initializeControllerFuture, 
         builder: (context, snapshot) {
-          // If the camera is still initializing, show a loading indicator
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -75,26 +74,24 @@ class _CameraWidgetLoginState extends State<CameraWidgetLogin> {
             );
           }
 
-          // Otherwise, show the camera preview and the capture button
           return Stack(
             children: [
               Positioned(
-                bottom: 400, // Adjust vertical position
-                left: 0, // Adjust horizontal position
+                bottom: 400, 
+                left: 0, 
                 child: SizedBox(
-                  width: 400, // Set width of the preview
-                  height: 250, // Set height of the preview
+                  width: 400, 
+                  height: 250, 
                   child: AspectRatio(
                     aspectRatio: _cameraController.value.aspectRatio,
                     child: Transform.rotate(
-                      angle: -90 * pi / 180, // Rotate preview by 90 degrees
+                      angle: -90 * pi / 180, 
                       child: CameraPreview(_cameraController),
                     ),
                   ),
                 ),
               ),
 
-              // Capture Icon Button at the bottom center
               Positioned(
                 bottom: 150,
                 left: 0,

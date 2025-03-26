@@ -61,40 +61,36 @@ class _CameraWidgetState extends State<CameraWidget> {
       ),
       backgroundColor: const Color.fromRGBO(245, 241, 230, 1),
       body: FutureBuilder<void>(
-        future: _initializeControllerFuture, // Wait for the camera initialization
+        future: _initializeControllerFuture, 
         builder: (context, snapshot) {
-          // If the camera is still initializing, show a loading indicator
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // If there was an error initializing the camera, show an error message
           if (snapshot.hasError) {
             return Center(
               child: Text('Error initializing camera: ${snapshot.error}'),
             );
           }
 
-          // Otherwise, show the camera preview and the capture button
           return Stack(
             children: [
               Positioned(
-                bottom: 400, // Adjust vertical position
-                left: 0, // Adjust horizontal position
+                bottom: 400,
+                left: 0, 
                 child: SizedBox(
-                  width: 400, // Set width of the preview
-                  height: 250, // Set height of the preview
+                  width: 400, 
+                  height: 250, 
                   child: AspectRatio(
                     aspectRatio: _cameraController.value.aspectRatio,
                     child: Transform.rotate(
-                      angle: -90 * pi / 180, // Rotate preview by 90 degrees
+                      angle: -90 * pi / 180,
                       child: CameraPreview(_cameraController),
                     ),
                   ),
                 ),
               ),
 
-              // Capture Icon Button at the bottom center
               Positioned(
                 bottom: 150,
                 left: 0,

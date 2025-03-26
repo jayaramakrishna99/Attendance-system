@@ -110,7 +110,6 @@ def get_locations_by_employee_id(employee_id: str, db: Session = Depends(get_db)
 @router.get("/employee-locations/by-date/{date_str}")
 def get_locations_by_date(date_str: str, db: Session = Depends(get_db)):
     date_str = date_str[:10]
-    print(date_str)
     try:
         date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
         print(date_obj)
