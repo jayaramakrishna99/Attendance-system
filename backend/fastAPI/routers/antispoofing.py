@@ -3,7 +3,6 @@ import torch # type: ignore
 import torch.nn as nn # type: ignore
 import torchvision.transforms as transforms # type: ignore
 import torchvision.models as models # type: ignore
-
 # 1. Load Anti-Spoofing Model
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -4,17 +4,33 @@ import 'register_screen.dart';
 import 'welcome_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String facultyId; // Add facultyId
+
+  const HomeScreen({Key? key, required this.facultyId}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0; 
-  final List<Widget> _screens = [
-    WelcomeScreen(),
-    LoginScreen(),
-    RegisterScreen(),
-  ];
+  late final List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      WelcomeScreen(facultyId: widget.facultyId), // Pass facultyId
+      LoginScreen(),
+      RegisterScreen(),
+    ];
+  }
+  // final List<Widget> _screens = [
+  //   WelcomeScreen(),
+  //   LoginScreen(),
+  //   RegisterScreen(),
+  // ];
+  
+  static get employeeId => null;
 
   @override
   Widget build(BuildContext context) {

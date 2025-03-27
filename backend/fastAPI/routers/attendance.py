@@ -10,6 +10,7 @@ import os
 from .antispoofing import predict_spoof
 from .polygon import POLYGON
 from .location_utils import is_point_in_polygon
+from datetime import timezone
 
 router = APIRouter()
 
@@ -35,21 +36,14 @@ async def mark_attendance(
         db.query(Location)
         .filter(
             Location.employee_id == faculty_id,
-            func.date(Location.updated_at) == today_date  # Filter for today's record
+            func.date(Location.updated_at) == today_date 
         )
         .first()
     )
 
-    # latest_location = (
-    #     db.query(Location)
-    #     .filter(Location.employee_id == faculty_id)
-    #     .first()  
-    # )
-
     if not latest_location:
         raise HTTPException(status_code=401, detail="Location not found. Please login again.")
     
-    # Inside mark_attendance() route
     is_inside = is_point_in_polygon(
         latest_location.latitude,
         latest_location.longitude,
@@ -86,13 +80,13 @@ async def mark_attendance(
         print(f"DEBUG: Temp Uploaded Path: {temp_uploaded_path}")
         print(f"DEBUG: Temp Stored Path: {temp_stored_path}")
 
-        # **Perform Anti-Spoofing Check**
+        # Perform Anti-Spoofing Check
         if not predict_spoof(temp_uploaded_path):
             os.remove(temp_uploaded_path)
             os.remove(temp_stored_path)
             raise HTTPException(status_code=400, detail="Spoofed image detected! Attendance not marked.")
 
-        # **Perform Face Verification**
+        # Perform Face Verification
         try:
             result = DeepFace.verify(
                 img1_path=temp_uploaded_path,
@@ -107,9 +101,9 @@ async def mark_attendance(
         if not result["verified"]:
             os.remove(temp_uploaded_path)
             os.remove(temp_stored_path)
-            raise HTTPException(status_code=401, detail="Face recognition failed. Unauthorized.")
+            raise HTTPException(status_code=406, detail="Face recognition failed. Unauthorized.")
 
-        # **Mark Attendance**
+        # Mark Attendance
         current_time = datetime.now()
         today_date = current_time.date()
 

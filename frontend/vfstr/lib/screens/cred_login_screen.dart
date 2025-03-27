@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:vfstr/constants/serverurl.dart';
 import 'package:vfstr/services/location_service.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vfstr/screens/welcome_screen.dart';
 
 class CredLoginScreen extends StatefulWidget {
   @override
@@ -110,8 +111,9 @@ Future<void> _login() async {
       // Navigate to HomeScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen(facultyId: employeeId)),
       );
+
     } else {
       var responseBody = response.body.isNotEmpty ? jsonDecode(response.body) : {};
       String errorMessage = responseBody.containsKey('detail')

@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse # type: ignore
 from tempfile import NamedTemporaryFile
 from .antispoofing import predict_spoof
 import os
+import base64
 
 router = APIRouter()
 
@@ -90,3 +91,19 @@ async def get_image(faculty_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="No image available for this faculty")
 
     return Response(content=faculty.image, media_type="image/jpeg")
+
+@router.get("/get_faculty_image/{faculty_id}")
+def get_faculty_image(faculty_id: str, db: Session = Depends(get_db)):
+    faculty = db.query(Faculty).filter(Faculty.faculty_id == faculty_id).first()
+    
+    if not faculty or not faculty.image:
+        raise HTTPException(status_code=404, detail="Faculty image not found")
+
+    # Encode the image to Base64
+    encoded_image = base64.b64encode(faculty.image).decode('utf-8')
+
+    return {
+        "faculty_id": faculty_id,
+        "name": faculty.name,   # Include faculty name
+        "image_base64": encoded_image
+    }

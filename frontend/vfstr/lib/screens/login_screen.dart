@@ -118,6 +118,10 @@ void _markAttendance() async {
           );
         });
         break;
+      
+      case 406:
+        _showDialog("Unauthorized", "Face recognition failed.");
+        break;
 
       default:
         _showDialog("Failed", "Error: $errorMessage");
