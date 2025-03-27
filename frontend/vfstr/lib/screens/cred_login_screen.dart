@@ -281,11 +281,11 @@ Widget build(BuildContext context) {
                   children: [
                     Lottie.asset(
                       'assets/animations/loading.json',
-                      width: 60,
-                      height: 60,
+                      width: 100,
+                      height: 100,
                       fit: BoxFit.contain,
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 1),
                     Text(
                       "Logging in...",
                       style: TextStyle(

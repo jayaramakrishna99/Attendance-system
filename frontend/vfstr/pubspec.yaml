@@ -79,6 +79,7 @@ flutter:
     - assets/app_logo.png
     - assets/animations/loading.json
     - assets/animations/loading1.json
+    - assets/animations/swipe-up.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

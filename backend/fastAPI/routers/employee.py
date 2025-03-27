@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Form, Request # type: ignore
 from sqlalchemy.orm import Session # type: ignore
-from models import Employee
+from models import Employee,Attendance
 from database import get_db
 from Cryptodome.Cipher import AES # type: ignore
 from Cryptodome.Util.Padding import pad, unpad  # type: ignore
@@ -78,3 +78,11 @@ async def login_employee(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     return {"message": "Login successful"}
+
+
+# @router.get("/view-attendance/")
+# async def view_attendance(employee_id: str, db: Session = Depends(get_db)):
+#     db_employee = db.query(Attendance).filter(Attendance.faculty_id == employee_id).first()
+#     if not db_employee:
+#         raise HTTPException(status_code=404, detail="Employee not found")
+#     return {"name": db_employee.faculty_id, "employee_id": db_employee.employee_id}
