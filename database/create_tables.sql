@@ -34,20 +34,15 @@ CREATE TABLE location (
     FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
 );
 
-
-drop table employees;
-
 USE attendance_system;
+
 select * from faculty;
 select * from attendance;
 select * from employees;
 select * from location;
 
-delete from attendance;
-delete from faculty;
-
 set sql_safe_updates=1;
 
 
-ALTER TABLE attendance
-CHANGE status status ENUM('Present', 'Absent') NOT NULL;
+-- ALTER TABLE attendance
+-- CHANGE status status ENUM('Present', 'Absent') NOT NULL;
