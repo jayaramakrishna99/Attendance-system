@@ -3,7 +3,7 @@
 
 ## **Overview**  
 The **VFSTR Attendance System** is a mobile application built using **Flutter**, **FastAPI**, and **MySQL** to automate faculty attendance tracking using facial recognition. Faculty members can register, log in, and mark their attendance using a captured image, which is verified using a deep learning face recognition model.
-
+![Splash Screen](backend\fastAPI\reference_images\1.jpg)
 ---
 
 ## **Features** 🚀  
