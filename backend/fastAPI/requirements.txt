@@ -1,0 +1,11 @@
+cv2
+torch
+torchvision
+fastapi
+sqlalchemy
+datetime
+tempfile
+deepface
+Cryptodome
+aiofiles
+apscheduler
