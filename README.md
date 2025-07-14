@@ -27,6 +27,7 @@ The **VFSTR Attendance System** is a mobile application built using **Flutter**,
   <img src="backend/fastAPI/reference_images/Final University Json.png" width="300"/><br>
   University Boundaries
 </p>
+
 ---
 
 ## **Features** 🚀  
