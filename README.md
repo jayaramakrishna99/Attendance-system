@@ -3,7 +3,30 @@
 
 ## **Overview**  
 The **VFSTR Attendance System** is a mobile application built using **Flutter**, **FastAPI**, and **MySQL** to automate faculty attendance tracking using facial recognition. Faculty members can register, log in, and mark their attendance using a captured image, which is verified using a deep learning face recognition model.
-![Splash Screen](backend\fastAPI\reference_images\1.jpg)
+
+<table align ="center">
+  <tr>
+    <td align="center"><img src="backend/fastAPI/reference_images/1.jpg" width="200"/><br/>Splash Screen</td>
+    <td align="center"><img src="backend/fastAPI/reference_images/2.jpg" width="200"/><br/>Employee Login</td>
+    <td align="center"><img src="backend/fastAPI/reference_images/3.jpg" width="200"/><br/>Admin Login</td>
+  </tr>
+   <tr>
+    <td align="center"><img src="backend/fastAPI/reference_images/4.jpg" width="200"/><br/>Admin Home</td>
+    <td align="center"><img src="backend/fastAPI/reference_images/5.jpg" width="200"/><br/>Employee Locations</td>
+    <td align="center"><img src="backend/fastAPI/reference_images/6.jpg" width="200"/><br/>Home</td>
+  </tr>
+   <tr>
+    <td align="center"><img src="backend/fastAPI/reference_images/7.jpg" width="200"/><br/>Instructions</td>
+    <td align="center"><img src="backend/fastAPI/reference_images/8.jpg" width="200"/><br/>Registration</td>
+    <td align="center"><img src="backend/fastAPI/reference_images/9.jpg" width="200"/><br/>Mark Attendance</td>
+  </tr>
+  
+</table>
+
+<p align="center">
+  <img src="backend/fastAPI/reference_images/Final University Json.jpg" width="300"/><br>
+  University Boundaries
+</p>
 ---
 
 ## **Features** 🚀  
